@@ -28,11 +28,14 @@ def mars_news(browser):
     # Convert the browser html to a soup object
     html = browser.html
     news_soup = soup(html, 'html.parser')
-    slide_elem = news_soup.select_one('div.list_text')
-    # Use the parent element to find the first a tag and save it as `news_title`
-    news_title = slide_elem.find("div", class_='content_title').get_text()
-    # Use the parent element to find the paragraph text
-    news_p = slide_elem.find('div', class_="article_teaser_body").get_text()
+    try:
+        slide_elem = news_soup.select_one('div.list_text')
+        # Use the parent element to find the first a tag and save it as `news_title`
+        news_title = slide_elem.find("div", class_='content_title').get_text()
+        # Use the parent element to find the paragraph text
+        news_p = slide_elem.find('div', class_="article_teaser_body").get_text()
+    except AttributeError:
+        return None, None    
     return news_title, news_p
 
 def featured_image(browser):
